@@ -21,7 +21,7 @@ public class BotMessageService {
         this.demoTGBot = demoTGBot;
         this.elementService = elementService;
     }
-
+//Реализация логики отправки сообщений
     public void sendMessage(Long chatId, String text) {
         String chatIdStr = String.valueOf(chatId);
         SendMessage sendMessage = new SendMessage(chatIdStr, text);

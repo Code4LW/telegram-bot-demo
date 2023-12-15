@@ -13,6 +13,8 @@ public class CommandContainer {
         this.map.put("/start", new StartCommand(botMessageService));
         this.map.put("/viewTree", new ViewTreeCommand(botMessageService));
         this.map.put("/addElement", new AddElementCommand(botMessageService));
+        this.map.put("/help", new HelpCommand(botMessageService));
+        this.map.put("/removeElement", new RemoveCommand(botMessageService));
     }
 
     public Map<String, BotCommand> getCommands(){

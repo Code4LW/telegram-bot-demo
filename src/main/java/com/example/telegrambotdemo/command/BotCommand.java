@@ -5,5 +5,5 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @FunctionalInterface
 public interface BotCommand {
-      void execute(Update update);
+      void execute(Update update); //A single common method for all bot commands to implement separately
 }

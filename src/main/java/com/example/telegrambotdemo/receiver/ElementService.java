@@ -3,11 +3,16 @@ package com.example.telegrambotdemo.receiver;
 import com.example.telegrambotdemo.model.Element;
 import com.example.telegrambotdemo.repository.ElementRepo;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +31,9 @@ public class ElementService {
         List<String> names = new ArrayList<>();
         elementRepo.findAll().forEach(element -> names.add(element.getName()));
         return names;
+    }
+    public Element getByName (String name){
+        return elementRepo.findByName(name).orElse(null);
     }
     public boolean addElement(Element element){
         if(elementRepo.findByName(element.getName()).isEmpty()) {
@@ -52,8 +60,31 @@ public class ElementService {
         if(elementRepo.findByName(name).isEmpty()) return false;
         return true;
     }
-    public void deleteElement(Element element){
-         elementRepo.delete(element);
-         elementRepo.deleteAllByParent(element.getName());
+    public boolean deleteElement(Element element){
+        if(elementRepo.findByName(element.getName()).isEmpty()) return false;
+         elementRepo.deleteById(element.getId());
+         List<Element> children = elementRepo.findAll().stream().filter(el -> el.hasParent()).filter(element1 -> element1.getParent().equals(element.getName())).toList();
+         children.forEach(element1 -> deleteElement(element1));
+         return true;
     }
+//    public ByteArrayInputStream getExcel(){
+//        List<Element> elements = elementRepo.findAll();
+//        HSSFWorkbook workbook = new HSSFWorkbook();
+//        HSSFSheet sheet = workbook.createSheet(" Category Tree");
+//        HSSFRow row = sheet.createRow(0);
+//        row.createCell(0).setCellValue("id");
+//        row.createCell(1).setCellValue("name");
+//        row.createCell(2).setCellValue("parent");
+//        row.createCell(3).setCellValue("parent_element");
+//        int rowIndex = 1;
+//        for ( Element element: elements){
+//            HSSFRow newRow = sheet.createRow(rowIndex);
+//            newRow.createCell(0).setCellValue(element.getId());
+//            newRow.createCell(1).setCellValue(element.getName());
+//            newRow.createCell(2).setCellValue(element.getParent());
+//            newRow.createCell(3).setCellValue(element.getLevel());
+//            rowIndex++;
+//        }
+//
+//    }
 }

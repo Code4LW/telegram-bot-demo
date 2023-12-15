@@ -16,6 +16,7 @@ public class ViewTreeCommand implements BotCommand{
 
     private final BotMessageService botMessageService;
 
+
     @Override
     public void execute(Update update) {
         if(botMessageService.getElementService().getAll().isEmpty()||botMessageService.getElementService().getAll()==null){
@@ -24,6 +25,7 @@ public class ViewTreeCommand implements BotCommand{
             botMessageService.sendMessage(update.getMessage().getChatId(), drawTree());
         }
     }
+    //Реализация метода для построения схемы дерева из отсортированного списка
     private String drawTree(){
         List<Element> elements = botMessageService.getElementService().getAll();
         StringBuilder stringBuilder = new StringBuilder();
@@ -43,33 +45,34 @@ public class ViewTreeCommand implements BotCommand{
         }
         return stringBuilder.toString();
     }
+
+    //Реализация сортировки списка элементов для построения дерева
     private List<Element> sortList(List<Element> elements) {
+        //Создаем LinkedList объект так как туда будет удобнее добавлять новые элементы в список
         List<Element> sorted = new LinkedList<>();
         List<Element> childElements;
-        Map<Element, Integer> map = new HashMap<>();
+        Set<Element> set = new HashSet<>();
         for (int i = 0; i < elements.size(); i++) {
-            if (!map.containsKey(elements.get(i))) {
+            if (set.add(elements.get(i))) {
                 sorted.add(elements.get(i));
-                map.put(elements.get(i), i);
             }
             final Element current = elements.get(i);
+            // ищем все дочерние элементы данного элемента
+
             childElements = elements.stream().filter(Element::hasParent).filter(element -> element.getParent().equals(current.getName())).collect(Collectors.toList());
             if(childElements.isEmpty()) continue;
-            int index = map.get(elements.get(i));
-            Element next = null;
-            for (Element key:map.keySet()) {
-                if (map.get(key)==index+1) {
-                    next = key;
-                    break;
-                }
-            }
+
+            //При наличии дочерних элементов добавляем кажыдй из них в отсортированный список после родительского элемента
+            int index = sorted.indexOf(elements.get(i));
+
             for (Element child : childElements) {
                 index++;
                 sorted.add(index, child);
-                map.put(child,index);
+                set.add(child);
             }
-            if (next!=null) map.put(next,index+1);
+
         }
+
         return sorted;
     }
 }
