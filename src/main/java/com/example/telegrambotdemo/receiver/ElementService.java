@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,24 +69,34 @@ public class ElementService {
          children.forEach(element1 -> deleteElement(element1));
          return true;
     }
-//    public ByteArrayInputStream getExcel(){
-//        List<Element> elements = elementRepo.findAll();
-//        HSSFWorkbook workbook = new HSSFWorkbook();
-//        HSSFSheet sheet = workbook.createSheet(" Category Tree");
-//        HSSFRow row = sheet.createRow(0);
-//        row.createCell(0).setCellValue("id");
-//        row.createCell(1).setCellValue("name");
-//        row.createCell(2).setCellValue("parent");
-//        row.createCell(3).setCellValue("parent_element");
-//        int rowIndex = 1;
-//        for ( Element element: elements){
-//            HSSFRow newRow = sheet.createRow(rowIndex);
-//            newRow.createCell(0).setCellValue(element.getId());
-//            newRow.createCell(1).setCellValue(element.getName());
-//            newRow.createCell(2).setCellValue(element.getParent());
-//            newRow.createCell(3).setCellValue(element.getLevel());
-//            rowIndex++;
-//        }
-//
-//    }
+    public ByteArrayInputStream getExcel() throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        List<Element> elements = elementRepo.findAll();
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        try {
+        HSSFSheet sheet = workbook.createSheet(" Category Tree");
+        HSSFRow row = sheet.createRow(0);
+        row.createCell(0).setCellValue("id");
+        row.createCell(1).setCellValue("name");
+        row.createCell(2).setCellValue("parent");
+        row.createCell(3).setCellValue("parent_element");
+        int rowIndex = 1;
+        for ( Element element: elements){
+            HSSFRow newRow = sheet.createRow(rowIndex);
+            newRow.createCell(0).setCellValue(element.getId());
+            newRow.createCell(1).setCellValue(element.getName());
+            newRow.createCell(2).setCellValue(element.getParent());
+            newRow.createCell(3).setCellValue(element.getLevel());
+            rowIndex++;
+        }
+            workbook.write(byteArrayOutputStream);
+            return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+       finally {
+            workbook.close();
+            byteArrayOutputStream.close();
+        }
+    }
 }

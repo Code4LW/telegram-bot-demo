@@ -2,8 +2,6 @@ package com.example.telegrambotdemo.command;
 
 import com.example.telegrambotdemo.model.Element;
 import com.example.telegrambotdemo.receiver.BotMessageService;
-import com.example.telegrambotdemo.receiver.ElementService;
-import com.fasterxml.jackson.databind.type.TypeParser;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;

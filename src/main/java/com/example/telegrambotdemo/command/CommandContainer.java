@@ -15,6 +15,7 @@ public class CommandContainer {
         this.map.put("/addElement", new AddElementCommand(botMessageService));
         this.map.put("/help", new HelpCommand(botMessageService));
         this.map.put("/removeElement", new RemoveCommand(botMessageService));
+        this.map.put("/download", new DownloadCommand(botMessageService));
     }
 
     public Map<String, BotCommand> getCommands(){

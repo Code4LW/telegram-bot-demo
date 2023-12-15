@@ -1,11 +1,9 @@
 package com.example.telegrambotdemo.command;
 
 import com.example.telegrambotdemo.receiver.BotMessageService;
-import com.example.telegrambotdemo.receiver.ElementService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
