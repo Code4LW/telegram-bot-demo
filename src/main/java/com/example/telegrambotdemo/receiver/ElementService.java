@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class ElementService {
          children.forEach(element1 -> deleteElement(element1));
          return true;
     }
-    public ByteArrayInputStream getExcel() throws IOException {
+    public byte[] getExcel() throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         List<Element> elements = elementRepo.findAll();
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -90,7 +89,7 @@ public class ElementService {
             rowIndex++;
         }
             workbook.write(byteArrayOutputStream);
-            return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            return byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

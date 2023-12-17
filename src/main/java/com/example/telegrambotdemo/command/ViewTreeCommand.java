@@ -29,14 +29,14 @@ public class ViewTreeCommand implements BotCommand{
         StringBuilder stringBuilder = new StringBuilder();
         elements = sortList(elements);
         String category;
-        int lvl ;
+        int lvl;
         for(Element element:elements){
             lvl = element.getLevel()-1;
             category = element.getName();
             if(element.getLevel()>1) {
                 category = " └── "+category;
             }
-            for (int i = 1; i < lvl*2; i++) {
+            for (int i = 1; i <lvl*2; i++) {
                 category = "    \t" + category;
             }
             stringBuilder.append(category+": \n");
