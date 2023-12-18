@@ -24,8 +24,7 @@ public class DownloadCommand implements BotCommand{
             outputStream.write(botMessageService.getElementService().getExcel());
             InputFile inputFile = new InputFile(file);
             document.setDocument(inputFile);
-
-            document.setCaption("Tree_Excel");
+            document.setCaption("Here is your file");
             botMessageService.sendDocument(document);
 
         } catch (IOException e) {
