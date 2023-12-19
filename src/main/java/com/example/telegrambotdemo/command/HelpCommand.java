@@ -17,6 +17,7 @@ public class HelpCommand implements BotCommand{
                 /addElement <parent name> <child name> - to add a new  child element to a specific element
                 /removeElement - to remove an element from the tree  
                 /download - to download your tree as an excel file
+                /upload - to upload an excel file to convert into a tree
             """;
     @Override
     public void execute(Update update){

@@ -3,9 +3,11 @@ package com.example.telegrambotdemo.receiver;
 import com.example.telegrambotdemo.model.Element;
 import com.example.telegrambotdemo.repository.ElementRepo;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +75,7 @@ public class ElementService {
         List<Element> elements = elementRepo.findAll();
         HSSFWorkbook workbook = new HSSFWorkbook();
         try {
-        HSSFSheet sheet = workbook.createSheet(" Category Tree");
+        HSSFSheet sheet = workbook.createSheet("Category Tree");
         HSSFRow row = sheet.createRow(0);
         row.createCell(0).setCellValue("id");
         row.createCell(1).setCellValue("name");
@@ -96,6 +98,22 @@ public class ElementService {
        finally {
             workbook.close();
             byteArrayOutputStream.close();
+        }
+    }
+
+
+    public void getFromExcel(HSSFWorkbook workbook) {
+        HSSFSheet sheet = workbook.getSheetAt(0);
+        elementRepo.deleteAll();
+        int rowIndex = 1;
+        while(sheet.getRow(rowIndex)!=null){
+            HSSFRow row = sheet.getRow(rowIndex);
+            Long id = (long) row.getCell(0).getNumericCellValue();
+            String name = row.getCell(1).getStringCellValue();
+            String parent = row.getCell(2).getStringCellValue();
+            int level = (int) row.getCell(3).getNumericCellValue();
+            elementRepo.save(new Element(id, name, parent, level));
+            rowIndex++;
         }
     }
 }
