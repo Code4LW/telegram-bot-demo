@@ -4,11 +4,9 @@ import com.example.telegrambotdemo.receiver.BotMessageService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @RequiredArgsConstructor
-@Component
 public class StartCommand implements BotCommand{
 
     private final BotMessageService botMessageService;

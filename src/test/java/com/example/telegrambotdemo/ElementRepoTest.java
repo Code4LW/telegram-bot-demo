@@ -44,7 +44,8 @@ public class ElementRepoTest {
         elementRepo.deleteById(3L);
         List<Element> elements = elementRepo.findAll();
         Assertions.assertTrue(elements.size()==2);
-        Optional<Element> element = Optional.of(elementRepo.findByName("Element3").get());
-        Assertions.assertFalse(elements.contains(element));
+        Optional<Element> element = elementRepo.findByName("Element3");
+        Assertions.assertTrue(element.isEmpty());
+        Assertions.assertFalse(elements.size()==3);
     }
 }

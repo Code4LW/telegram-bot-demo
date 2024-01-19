@@ -43,7 +43,7 @@ public class DemoTGBot extends TelegramLongPollingBot {
         }
         if(commandContainer.getCommands().containsKey(message)){
             commandContainer.getCommands().get(message).execute(update);
-        } else new UnknownCommand(new BotMessageService(this,this.elementService)).execute(update);
+        } else new UnknownCommand(new BotMessageService(this,elementService)).execute(update);
     }
 
     @Override

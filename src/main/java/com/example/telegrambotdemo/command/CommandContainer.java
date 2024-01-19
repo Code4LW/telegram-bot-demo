@@ -18,7 +18,6 @@ public class CommandContainer {
         this.map.put("/download", new DownloadCommand(botMessageService));
         this.map.put("/upload", new UploadCommand(botMessageService));
     }
-
     public Map<String, BotCommand> getCommands(){
         return this.map;
     }

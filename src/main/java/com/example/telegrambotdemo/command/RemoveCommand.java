@@ -18,6 +18,6 @@ public class RemoveCommand implements BotCommand{
             botMessageService.sendMessage(update.getMessage().getChatId(), String.format("There is no element by the name %s", message));
             return;
         }
-        botMessageService.sendMessage(update.getMessage().getChatId(), String.format("The element %s has been removed from tree", message));
+        botMessageService.sendMessage(update.getMessage().getChatId(), String.format("The element %s has been removed from the tree", message));
     }
 }
